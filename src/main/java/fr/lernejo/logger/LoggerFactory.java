@@ -7,6 +7,6 @@ public class LoggerFactory {
 
     public static Logger getLogger(String name) {
         //Logger fileLogger = new FileLogger("C:\\Users\\mrsou\\decoupling_java_training\\FileLogger");
-        return new ConsoleLogger();
+        return new CompositeLogger(new FileLogger("C:\\Users\\mrsou\\decoupling_java_training\\FileLogger"), new ContextualLogger(name, new ConsoleLogger()));
     }
 }

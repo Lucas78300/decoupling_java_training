@@ -9,18 +9,18 @@ public class HumanPlayer implements Player{
 
     @Override
     public long askNextGuess() {
-        System.out.println("");
+        System.out.println("Entré un nombre");
         Scanner scan = new Scanner(System.in);
         return scan.nextLong();
     }
 
     @Override
     public void respond(boolean lowerOrGreater) {
-        if (lowerOrGreater == true ) {
-            logger.log("Essayer plus petit");
+        if (lowerOrGreater) {
+            logger.log("Essayer plus petit \n");
         }
         else {
-            logger.log("Essayer plus grand");
+            logger.log("Essayer plus grand \n");
         }
     }
 }

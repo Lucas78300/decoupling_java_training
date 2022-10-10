@@ -2,13 +2,17 @@ package fr.lernejo.guessgame;
 
 import fr.lernejo.logger.Logger;
 import fr.lernejo.logger.LoggerFactory;
-import java.util.Scanner;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Simulation {
 
     private final Logger logger = LoggerFactory.getLogger("simulation");
     private Player player = new HumanPlayer();  //TODO add variable type
     private long numberToGuess; //TODO add variable type
+    private long iteration = 0;
 
     public Simulation(Player player) {
         //TODO implement me
@@ -26,7 +30,7 @@ public class Simulation {
     private boolean nextRound() {
         //TODO implement me
 
-        System.out.println("Entré un nombre");
+        iteration++;
         long playerNumber = player.askNextGuess();
 
         if(playerNumber == numberToGuess){
@@ -38,11 +42,29 @@ public class Simulation {
         }
     }
 
-    public void loopUntilPlayerSucceed() {
+    public void loopUntilPlayerSucceed(long maxIteration) {
         //TODO implement me
-        while (this.nextRound() == false) {
+        long time1 = System.currentTimeMillis();
+
+        while (!this.nextRound() && iteration < maxIteration) {
             this.nextRound();
         }
-        logger.log("-- Bravo --");
+
+        long time2 = System.currentTimeMillis();
+        long totalTime = time2 - time1;
+        DateFormat format = new SimpleDateFormat("mm:ss.SSS");
+        Date result = new Date(totalTime);
+
+        if ( iteration < maxIteration ) {
+            logger.log("-- Bravo --");
+            logger.log("-- Nombre d'essaie effectué : " + iteration + " --");
+            logger.log("-- Le nombre à trouver était : " +  numberToGuess + " --");
+            logger.log("Temps : " + format.format(result));
+        }
+        else {
+            logger.log("-- Game Over --");
+            logger.log("-- Nombre d'essaie effectué : " + iteration + ", sur " + maxIteration + " autorisé --");
+            logger.log("-- Le nombre à trouver était : " +  numberToGuess + " --");
+        }
     }
 }
